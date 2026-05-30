@@ -12,6 +12,7 @@ namespace WebStore.Services
         {
             return await dbContext.Clientes
                 .Include(cliente => cliente.Pedidos)
+                .ThenInclude(pedido => pedido.ItensPedido)
                 .FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
         }
 
