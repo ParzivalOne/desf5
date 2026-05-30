@@ -13,7 +13,10 @@ builder.Services.AddDbContext<WebStoreDBContext>(options =>
     options.UseSqlite("Data Source=webStore.db");
 });
 
-builder.Services.AddTransient<IClienteService, ClienteService>();
+builder.Services
+    .AddTransient<IClienteService, ClienteService>()
+    .AddTransient<IPedidoService, PedidoService>()
+    .AddTransient<IProdutoService, ProdutoService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebStore.DTOs;
 using WebStore.Models;
 using WebStore.Services.Interfaces;
 
@@ -10,37 +11,37 @@ namespace WebStore.Controllers
     {
 
         [HttpGet("{id}")]
-        public async Task<Cliente?> GetClienteByIdAsync([FromRoute] Guid id, CancellationToken cancellationToken = default)
+        public async Task<ClienteOutputDto?> GetClienteByIdAsync([FromRoute] Guid id, CancellationToken cancellationToken = default)
         {
             var cliente = await clienteService.GetClienteByIdAsync(id, cancellationToken);
-            return cliente;
+            return cliente.ToOutputDto();
+        }
+
+        [HttpGet]
+        public async Task<List<ClienteOutputDto>> GetAllClientesAsync(CancellationToken cancellationToken = default)
+        {
+            var clientes = await clienteService.GetAllClientesAsync(cancellationToken);
+            return clientes.Select(cliente => cliente.ToOutputDto()).ToList();
         }
 
         [HttpPost]
-        public async Task<Cliente> CreateClienteAsync([FromBody] Cliente cliente, CancellationToken cancellationToken = default)
+        public async Task<ClienteOutputDto> CreateClienteAsync([FromBody] ClienteCreateInputDto cliente, CancellationToken cancellationToken = default)
         {
             var createdCliente = await clienteService.CreateClienteAsync(cliente, cancellationToken);
-            return createdCliente;
+            return createdCliente.ToOutputDto();
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateClienteAsync([FromRoute] Guid id, [FromBody] Cliente updatedCliente, CancellationToken cancellationToken = default)
+        public async Task<ClienteOutputDto> UpdateClienteAsync([FromRoute] Guid id, [FromBody] ClienteUpdateInputDto updatedCliente, CancellationToken cancellationToken = default)
         {
-            try
-            {
-                var cliente = await clienteService.UpdateClienteAsync(id, updatedCliente, cancellationToken);
-                return Ok(cliente);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            var cliente = await clienteService.UpdateClienteAsync(id, updatedCliente, cancellationToken);
+            return cliente.ToOutputDto();
         }
 
-        public async Task<IActionResult> DeleteClienteAsync([FromRoute] Guid id, CancellationToken cancellationToken = default)
+        [HttpDelete("{id}")]
+        public async Task DeleteClienteAsync([FromRoute] Guid id, CancellationToken cancellationToken = default)
         {
             await clienteService.DeleteClientAsync(id, cancellationToken);
-            return NoContent();
         }
     }
 }
