@@ -22,6 +22,13 @@ namespace WebStore.Services
                 .ToListAsync(cancellationToken);
         }
 
+        public async Task<List<Cliente>> SearchClientesByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            return await dbContext.Clientes
+                .Where(cliente => cliente.Nome.StartsWith(name))
+                .ToListAsync(cancellationToken);
+        }
+
         public async Task<Cliente> CreateClienteAsync(ClienteCreateInputDto clienteCreate, CancellationToken cancellationToken = default)
         {
             var cliente = Cliente.MapFrom(clienteCreate);

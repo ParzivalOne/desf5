@@ -17,6 +17,13 @@ namespace WebStore.Controllers
             return produto.ToOutputDto();
         }
 
+        [HttpGet("nome/{name}")]
+        public async Task<List<ProdutoOutputDto>> GetProdutosByNameAsync([FromRoute] string name, CancellationToken cancellationToken = default)
+        {
+            var produtos = await produtoService.GetProdutoByNameAsync(name, cancellationToken);
+            return produtos.Select(produto => produto.ToOutputDto()).ToList();
+        }
+
         [HttpGet]
         public async Task<List<ProdutoOutputDto>> GetAllProdutosAsync(CancellationToken cancellationToken = default)
         {

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebStore.Infrastructure;
 
@@ -10,9 +11,11 @@ using WebStore.Infrastructure;
 namespace WebStore.Migrations
 {
     [DbContext(typeof(WebStoreDBContext))]
-    partial class WebStoreDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260530012830_add-nome-indexes")]
+    partial class addnomeindexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.8");

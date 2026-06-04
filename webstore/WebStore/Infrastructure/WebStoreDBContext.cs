@@ -14,5 +14,18 @@ namespace WebStore.Infrastructure
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Cliente>()
+                .HasIndex(c => c.Nome)
+                .HasDatabaseName("IX_Clientes_Nome");
+
+            modelBuilder.Entity<Produto>()
+                .HasIndex(p => p.Nome)
+                .HasDatabaseName("IX_Produtos_Nome");
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

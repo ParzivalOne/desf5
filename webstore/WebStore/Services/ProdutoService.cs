@@ -17,6 +17,13 @@ namespace WebStore.Services
             return produto;
         }
 
+        public async Task<List<Produto>> GetProdutoByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            return await dBContext.Produtos
+                .Where(produto => produto.Nome.StartsWith(name))
+                .ToListAsync(cancellationToken);
+        }
+
         public async Task<List<Produto>> GetAllProdutosAsync(CancellationToken cancellationToken = default)
         {
             return await dBContext.Produtos.ToListAsync(cancellationToken);

@@ -9,6 +9,7 @@ namespace WebStore.Services.Interfaces
         Task DeleteProdutoAsync(Guid id, CancellationToken cancellationToken = default);
         Task<List<Produto>> GetAllProdutosAsync(CancellationToken cancellationToken = default);
         Task<Produto?> GetProdutoByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<List<Produto>> GetProdutoByNameAsync(string name, CancellationToken cancellationToken = default);
         Task<Produto> UpdateProdutoAsync(Guid id, ProdutoUpdateInputDto updatedProduto, CancellationToken cancellationToken = default);
     }
 }

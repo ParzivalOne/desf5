@@ -24,6 +24,13 @@ namespace WebStore.Controllers
             return clientes.Select(cliente => cliente.ToOutputDto()).ToList();
         }
 
+        [HttpGet("nome/{name}")]
+        public async Task<List<ClienteOutputDto>> GetClientsByNameAsync([FromRoute] string name, CancellationToken cancellationToken = default)
+        {
+            var clientes = await clienteService.SearchClientesByNameAsync(name, cancellationToken);
+            return clientes.Select(cliente => cliente.ToOutputDto()).ToList();
+        }
+
         [HttpPost]
         public async Task<ClienteOutputDto> CreateClienteAsync([FromBody] ClienteCreateInputDto cliente, CancellationToken cancellationToken = default)
         {
