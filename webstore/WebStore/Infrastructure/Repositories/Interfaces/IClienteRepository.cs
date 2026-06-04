@@ -1,9 +1,9 @@
 ﻿using WebStore.DTOs;
 using WebStore.Models;
 
-namespace WebStore.Services.Interfaces
+namespace WebStore.Infrastructure.Repositories.Interfaces
 {
-    public interface IClienteService
+    public interface IClienteRepository
     {
         Task<Cliente> CreateClienteAsync(ClienteCreateInputDto clienteUpdate, CancellationToken cancellationToken = default);
         Task DeleteClientAsync(Guid id, CancellationToken cancellationToken = default);

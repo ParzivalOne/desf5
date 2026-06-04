@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebStore.DTOs;
+using WebStore.Infrastructure.Repositories.Interfaces;
 using WebStore.Models;
 using WebStore.Services.Interfaces;
 
@@ -22,6 +23,12 @@ namespace WebStore.Controllers
         {
             var pedidos = await pedidoService.GetAllPedidosAsync(cancellationToken);
             return pedidos.Select(pedido => pedido.ToOutputDto()).ToList();
+        }
+
+        [HttpGet("count")]
+        public async Task<long> GetPedidosCountAsync(CancellationToken cancellationToken = default)
+        {
+            return await pedidoService.GetPedidosCountAsync(cancellationToken);
         }
 
         [HttpPost]

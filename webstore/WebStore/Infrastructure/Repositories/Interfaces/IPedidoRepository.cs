@@ -1,9 +1,9 @@
 ﻿using WebStore.DTOs;
 using WebStore.Models;
 
-namespace WebStore.Services.Interfaces
+namespace WebStore.Infrastructure.Repositories.Interfaces
 {
-    public interface IPedidoService
+    public interface IPedidoRepository
     {
         Task<Pedido> AddItemAsync(Guid pedidoId, ItemPedidoCreateInputDto itemPedidoCreate, CancellationToken cancellationToken = default);
         Task<Pedido> CreatePedidoAsync(PedidoCreateInputDto pedidoCreate, CancellationToken cancellationToken = default);

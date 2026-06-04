@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebStore.DTOs;
+using WebStore.Infrastructure.Repositories.Interfaces;
 using WebStore.Models;
 using WebStore.Services.Interfaces;
 
@@ -14,7 +15,7 @@ namespace WebStore.Controllers
         public async Task<ProdutoOutputDto?> GetProdutoByIdAsync([FromRoute] Guid id, CancellationToken cancellationToken = default)
         {
             var produto = await produtoService.GetProdutoByIdAsync(id, cancellationToken);
-            return produto.ToOutputDto();
+            return produto?.ToOutputDto();
         }
 
         [HttpGet("nome/{name}")]
@@ -29,6 +30,12 @@ namespace WebStore.Controllers
         {
             var produtos = await produtoService.GetAllProdutosAsync(cancellationToken);
             return produtos.Select(produto => produto.ToOutputDto()).ToList();
+        }
+
+        [HttpGet("count")]
+        public async Task<long> GetProdutosCountAsync(CancellationToken cancellationToken = default)
+        {
+            return await produtoService.GetProdutosCountAsync(cancellationToken);
         }
 
         [HttpPost]

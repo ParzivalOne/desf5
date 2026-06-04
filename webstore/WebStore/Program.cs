@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using WebStore.Infrastructure;
+using WebStore.Infrastructure.Repositories;
+using WebStore.Infrastructure.Repositories.Interfaces;
 using WebStore.Services;
 using WebStore.Services.Interfaces;
 
@@ -14,6 +16,9 @@ builder.Services.AddDbContext<WebStoreDBContext>(options =>
 });
 
 builder.Services
+    .AddTransient<IClienteRepository, ClienteRepository>()
+    .AddTransient<IPedidoRepository, PedidoRepository>()
+    .AddTransient<IProdutoRepository, ProdutoRepository>()
     .AddTransient<IClienteService, ClienteService>()
     .AddTransient<IPedidoService, PedidoService>()
     .AddTransient<IProdutoService, ProdutoService>();

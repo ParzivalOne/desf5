@@ -1,63 +1,33 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebStore.DTOs;
 using WebStore.Infrastructure;
+using WebStore.Infrastructure.Repositories.Interfaces;
 using WebStore.Models;
 using WebStore.Services.Interfaces;
 
 namespace WebStore.Services
 {
-    public class ProdutoService(WebStoreDBContext dBContext) : IProdutoService
+    public class ProdutoService(IProdutoRepository repository) : IProdutoService
     {
         public async Task<Produto> CreateProdutoAsync(ProdutoCreateInputDto produtoCreate, CancellationToken cancellationToken = default)
-        {
-            var produto = Produto.MapFrom(produtoCreate);
-            produto.Id = Guid.NewGuid();
-            dBContext.Produtos.Add(produto);
-            await dBContext.SaveChangesAsync(cancellationToken);
-            return produto;
-        }
+            => await repository.CreateProdutoAsync(produtoCreate, cancellationToken);
 
         public async Task<List<Produto>> GetProdutoByNameAsync(string name, CancellationToken cancellationToken = default)
-        {
-            return await dBContext.Produtos
-                .Where(produto => produto.Nome.StartsWith(name))
-                .ToListAsync(cancellationToken);
-        }
+            => await repository.GetProdutoByNameAsync(name, cancellationToken);
 
         public async Task<List<Produto>> GetAllProdutosAsync(CancellationToken cancellationToken = default)
-        {
-            return await dBContext.Produtos.ToListAsync(cancellationToken);
-        }
+            => await repository.GetAllProdutosAsync(cancellationToken);
 
         public async Task<Produto?> GetProdutoByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            return await dBContext.Produtos.FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
-        }
+            => await repository.GetProdutoByIdAsync(id, cancellationToken);
 
         public async Task<Produto> UpdateProdutoAsync(Guid id, ProdutoUpdateInputDto updatedProduto, CancellationToken cancellationToken = default)
-        {
-            var existingProduto = await dBContext.Produtos.FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
-            if (existingProduto == null)
-            {
-                throw new KeyNotFoundException($"Produto with ID {id} not found.");
-            }
-            existingProduto.Nome = updatedProduto.Nome ?? existingProduto.Nome;
-            existingProduto.Preco = updatedProduto.Preco ?? existingProduto.Preco;
-            existingProduto.Descricao = updatedProduto.Descricao ?? existingProduto.Descricao;
-            existingProduto.Estoque = updatedProduto.Estoque ?? existingProduto.Estoque;
-            await dBContext.SaveChangesAsync(cancellationToken);
-            return existingProduto;
-        }
+            => await repository.UpdateProdutoAsync(id, updatedProduto, cancellationToken);
 
         public async Task DeleteProdutoAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            var existingProduto = await dBContext.Produtos.FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
-            if (existingProduto == null)
-            {
-                throw new KeyNotFoundException($"Produto with ID {id} not found.");
-            }
-            dBContext.Produtos.Remove(existingProduto);
-            await dBContext.SaveChangesAsync(cancellationToken);
-        }
+            => await repository.DeleteProdutoAsync(id, cancellationToken);
+
+        public async Task<long> GetProdutosCountAsync(CancellationToken cancellationToken = default)
+            => await repository.GetProdutosCountAsync(cancellationToken);
     }
 }

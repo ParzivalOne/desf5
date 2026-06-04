@@ -1,9 +1,9 @@
 ﻿using WebStore.DTOs;
 using WebStore.Models;
 
-namespace WebStore.Services.Interfaces
+namespace WebStore.Infrastructure.Repositories.Interfaces
 {
-    public interface IProdutoService
+    public interface IProdutoRepository
     {
         Task<Produto> CreateProdutoAsync(ProdutoCreateInputDto produtoCreate, CancellationToken cancellationToken = default);
         Task DeleteProdutoAsync(Guid id, CancellationToken cancellationToken = default);
